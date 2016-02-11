@@ -5,3 +5,5 @@
 *.css
 *.js
 *.html
+*~
+.vagrant
