@@ -21,6 +21,19 @@ raco pkg install --multi-clone convert --auto --clone typed-racket git://github.
 raco pkg install --auto --clone math git://github.com/dkempe/math?path=math-lib
 raco pkg install --auto --clone math git://github.com/dkempe/math?path=math-test
 
+
+raco pkg install --auto --clone plot \
+"git://github.com/andmkent/plot?path=plot-lib#rtr-prototype" \
+"git://github.com/andmkent/plot?path=plot-compat#rtr-prototype" \
+"git://github.com/andmkent/plot?path=plot-gui-lib#rtr-prototype" \
+"git://github.com/andmkent/plot?path=plot-test#rtr-prototype" 
+
+raco pkg install --auto --clone pict3d \
+"git://github.com/andmkent/pict3d?path=pict3d#rtr-prototype" \
+"git://github.com/andmkent/pict3d?path=typed#rtr-prototype"
+
+raco pkg install --auto drracket
+
 SCRIPT
 
 Vagrant.configure("2") do |config|
