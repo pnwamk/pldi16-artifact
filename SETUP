@@ -9,6 +9,6 @@ $ raco pkg install --multi-clone convert --auto --clone typed-racket "git://gith
 
 3) install math fork:
 
-raco pkg install --clone math "git://github.com/dkempe/math?path=math-lib"
-raco pkg install --clone math "git://github.com/dkempe/math?path=math-test"
-raco pkg install drracket
+raco pkg install --auto --clone math "git://github.com/dkempe/math?path=math-lib"
+raco pkg install --auto --clone math "git://github.com/dkempe/math?path=math-test"
+raco pkg install --auto drracket
