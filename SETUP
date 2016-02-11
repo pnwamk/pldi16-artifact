@@ -1,0 +1,14 @@
+Steps to setup the artifact
+
+1) Download and setup Racket v6.2.1 minimal install
+(https://download.racket-lang.org/racket-minimal-v6.2.1.html)
+
+2) install typed-racket fork:
+
+$ raco pkg install --multi-clone convert --auto --clone typed-racket "git://github.com/andmkent/typed-racket?path=typed-racket-lib#rtr-prototype"
+
+3) install math fork:
+
+raco pkg install --clone math "git://github.com/dkempe/math?path=math-lib"
+raco pkg install --clone math "git://github.com/dkempe/math?path=math-test"
+
