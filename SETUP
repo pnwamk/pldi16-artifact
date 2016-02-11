@@ -5,10 +5,29 @@ Steps to setup the artifact
 
 2) install typed-racket fork:
 
-$ raco pkg install --multi-clone convert --auto --clone typed-racket "git://github.com/andmkent/typed-racket?path=typed-racket-lib#rtr-prototype"
+raco pkg install --multi-clone convert --auto --clone typed-racket "git://github.com/andmkent/typed-racket?path=typed-racket-lib#rtr-prototype"
 
-3) install math fork:
+3) install libraries
 
-raco pkg install --clone math "git://github.com/dkempe/math?path=math-lib"
-raco pkg install --clone math "git://github.com/dkempe/math?path=math-test"
+raco pkg install htdp
+
+raco pkg install --clone math \
+"git://github.com/dkempe/math?path=math-lib" \
+"git://github.com/dkempe/math?path=math-test"
+
+raco pkg install --clone plot \
+"git://github.com/andmkent/plot?path=plot-lib#rtr-prototype" \
+"git://github.com/andmkent/plot?path=plot-compat#rtr-prototype" \
+"git://github.com/andmkent/plot?path=plot-gui-lib#rtr-prototype" \
+"git://github.com/andmkent/plot?path=plot-test#rtr-prototype" \
+
+raco pkg install htdp
+
+raco pkg install --clone pict3d \
+"git://github.com/andmkent/pict3d?path=pict3d#rtr-prototype" \
+"git://github.com/andmkent/pict3d?path=typed#rtr-prototype" \
+
 raco pkg install drracket
+
+
+https://github.com/andmkent/pldi16-artifact-misc.git
