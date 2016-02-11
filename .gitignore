@@ -1,2 +1,7 @@
 
+*.scrbl~
+*.rkt~
 .#*
+*.css
+*.js
+*.html
