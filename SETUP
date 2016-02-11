@@ -19,10 +19,10 @@ raco pkg install --auto --clone plot \
 "git://github.com/andmkent/plot?path=plot-lib#rtr-prototype" \
 "git://github.com/andmkent/plot?path=plot-compat#rtr-prototype" \
 "git://github.com/andmkent/plot?path=plot-gui-lib#rtr-prototype" \
-"git://github.com/andmkent/plot?path=plot-test#rtr-prototype" \
+"git://github.com/andmkent/plot?path=plot-test#rtr-prototype" 
 
 raco pkg install --auto --clone pict3d \
 "git://github.com/andmkent/pict3d?path=pict3d#rtr-prototype" \
-"git://github.com/andmkent/pict3d?path=typed#rtr-prototype" \
+"git://github.com/andmkent/pict3d?path=typed#rtr-prototype"
 
 raco pkg install --auto drracket
