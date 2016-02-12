@@ -1,5 +1,13 @@
 Steps to setup the artifact
 
+0) install any supporting libraries not already on the VM:
+- git
+- z3
+- fontconfig
+- libcairo2
+- libjpeg62
+- libpango1.0-0
+
 1) Download and setup Racket v6.2.1 minimal install
 (https://download.racket-lang.org/racket-minimal-v6.2.1.html)
 
@@ -21,8 +29,8 @@ raco pkg install --auto --clone plot \
 "git://github.com/andmkent/plot?path=plot-gui-lib#rtr-prototype" \
 "git://github.com/andmkent/plot?path=plot-test#rtr-prototype" 
 
+raco pkg install --no-setup --deps force pfds
+
 raco pkg install --auto --clone pict3d \
 "git://github.com/andmkent/pict3d?path=pict3d#rtr-prototype" \
 "git://github.com/andmkent/pict3d?path=typed#rtr-prototype"
-
-raco pkg install --auto drracket
