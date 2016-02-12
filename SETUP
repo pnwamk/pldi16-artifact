@@ -34,3 +34,5 @@ raco pkg install --no-setup --deps force pfds
 raco pkg install --auto --clone pict3d \
 "git://github.com/andmkent/pict3d?path=pict3d#rtr-prototype" \
 "git://github.com/andmkent/pict3d?path=typed#rtr-prototype"
+
+raco pkg install --auto drracket
