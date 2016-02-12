@@ -26,6 +26,10 @@ export PATH=$PATH:`pwd`/racket-6.2.1/bin/
 # Check that Racket works
 racket -v # print version
 
+# create directory for cloned pkg installs
+# mkdir racket-6.2.1/extra-pkgs
+# cd racket-6.2.1/extra-pkgs
+
 # Install our modified version of Typed Racket
 raco pkg install --multi-clone convert --auto --clone typed-racket git://github.com/andmkent/typed-racket?path=typed-racket-lib#rtr-prototype
 
@@ -47,6 +51,9 @@ raco pkg install --auto --clone pict3d \
 
 # Install DrRacket for trying examples
 raco pkg install --auto drracket
+
+# move out of racket-6.2.1/extra-pkgs
+# cd ../..
 
 # Clone our artifact repository for examples and Redex model
 git clone git://github.com/andmkent/pldi16-artifact-misc
