@@ -11,6 +11,9 @@ sudo apt-get update
 # Install git, needed to clone our work
 sudo apt-get install -y git
 
+# Install z3, needed for our bitvector redex model
+sudo apt-get install z3
+
 # Install libraries used by DrRacket
 sudo apt-get install -y fontconfig libcairo2 libjpeg62 libpango1.0-0
 
