@@ -54,14 +54,14 @@
    ------------------- "S-Pair"
    (subtype Δ (Pair T_1 S_1) (Pair T_2 S_2))]
 
-  [(subtype Δ S T)
-   (proves (ext Δ P_+) Q_+) (proves (ext Δ P_-) Q_-)
-   ------------------- "S-Result"
-   (subtype Δ (Result S P_+ P_-) (Result T Q_+ Q_-))]
-
   [(subtype (ext Δ [x : T_x] ...) T S)
    ------------------- "S-ExistsSub"
-   (subtype Δ (∃ ([x : T_x] ...) T) S)])
+   (subtype Δ (∃ ([x : T_x] ...) T) S)]
+
+  [(subtype Δ S T)
+   (proves (ext Δ P_+) Q_+) (proves (ext Δ P_-) Q_-)
+   ------------------- "SR-Result"
+   (subtype Δ (Result S P_+ P_-) (Result T Q_+ Q_-))])
 
 
 ;; *********************************************************
@@ -112,6 +112,11 @@
        (∃ ([x : Any]) Any)
        Int]))
 
+;; proves / PROVES
+;; we use two logical proves relations in this model
+;; to restrict the order we try applying
+;; elimination/introduction rules (otherwise Redex would
+;; try all possibilities! yikes!)
 (define-judgment-form RTR-Base
   #:mode (proves I I)
   #:contract (proves Δ_ P_)
@@ -179,6 +184,16 @@
    (proves Δ R_i)
    --------------------- "L-OrI"
    (PROVES Δ (Or R_0 ... R_i R_i+1 ...))]
+
+  [(where/hidden #t #f)
+   (PROVES (Env Γ {(Or (¬ P) ...)  Q ...}) R)
+   --------------------- "L-DeM1"
+   (PROVES (Env Γ {(¬ (And P ...))  Q ...}) R)]
+
+  [(where/hidden #t #f)
+   (PROVES (Env Γ {(And (¬ P) ...)  Q ...}) R)
+   --------------------- "L-DeM2"
+   (PROVES (Env Γ {(¬ (Or P ...))  Q ...}) R)]
 
   [(<> x o)
    (proves (subst (Env {[y : S] ...} {(@ o T) P ...}) ([o / x])) (subst R ([o / x])))
@@ -307,17 +322,17 @@
 ;; ---------------------------------------------------------
 ;; update
 (define-metafunction RTR-Base
-  update : Δ_ T_1 (fld ...) ± T_2 -> S_
+  update : Δ_ T_1 (field ...) ± T_2 -> S_
   #:pre (wf Δ_ (T_1 T_2))
   #:post (wf Δ_ S_)
   [(update Δ T () pos S) (restrict Δ T S)]
   [(update Δ T () neg S) (remove Δ T S)]
-  [(update Δ (Pair T_1 T_2) (first fld ...) ± S)
-   (Pair: (update Δ T_1 (fld ...) ± S) T_2)]
-  [(update Δ (Pair T_1 T_2) (second fld ...) ± S)
-   (Pair: T_1 (update Δ T_2 (fld ...) ± S))]
+  [(update Δ (Pair T_1 T_2) (first field ...) ± S)
+   (Pair* (update Δ T_1 (field ...) ± S) T_2)]
+  [(update Δ (Pair T_1 T_2) (second field ...) ± S)
+   (Pair* T_1 (update Δ T_2 (field ...) ± S))]
   ;; meh, let's not do anything crazy in the last case
-  [(update Δ T (fld ...) ± S) T])
+  [(update Δ T (field ...) ± S) T])
 
 ;; *********************************************************
 ;; update tests
@@ -339,18 +354,18 @@
 ;; ---------------------------------------------------------
 ;; update-type-env
 (define-metafunction RTR-Base
-  update-env : Δ ± π T -> Δ
-  [(update-env (Env Γ Ψ) ± π T) (Env (ext Γ [x : S]) Ψ)
-   (where x (path-id π))
-   (where S (update (Env Γ Ψ) (lookup Γ x) (path-flds π) ± T))])
+  update-env : Δ ± o T -> Δ
+  [(update-env (Env Γ Ψ) ± o T) (Env (ext Γ [x : S]) Ψ)
+   (where x (obj-id o))
+   (where S (update (Env Γ Ψ) (lookup Γ x) (obj-path o) ± T))])
 
 (define-metafunction RTR-Base
-  update-Γ : Γ ± π T -> Γ
-  [(update-Γ Γ ± π T)
-   {[x : (update (Env Γ ()) S (fld ...) ± T)] any_l ... any_r ...}
+  update-Γ : Γ ± o T -> Γ
+  [(update-Γ Γ ± o T)
+   {[x : (update (Env Γ ()) S path ± T)] any_l ... any_r ...}
    (where {any_l ... [x : S] any_r ...} Γ)
-   (where (fld ....) (path-flds π))
-   (where x (path-id π))]
+   (where path (obj-path o))
+   (where x (obj-id o))]
   [(update-Γ {any ...} pos x T)
    {[x : T] any ...}])
 

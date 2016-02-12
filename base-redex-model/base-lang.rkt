@@ -5,6 +5,7 @@
 
 ;; ---------------------------------------------------------
 ;; Definition for Base Refinement-Typed Racket
+;; formalism described in "Occurrence Typing Modulo Theories"
 (define-language RTR-Base
   [x y z ::= variable-not-otherwise-mentioned]
   [n ::= integer]
@@ -12,9 +13,9 @@
   [p ::= int? bool? pair? not + - * <= fst snd pair]
   [v ::= n p true false]
   [e ::= v x (e e ...) (if e e e) (λ ([x : T] ...) e) (let ([x e]) e)]
-  [fld ::= first second]
-  [π :: x (fld π)]
-  [o ::= π (cons o o)]
+  [field ::= first second]
+  [path :: (field ...)]
+  [o ::= x (field o)]
   [T S ::= Any True False Int (U T ...) (Fun ([x : T] ...) -> Res)
      (Pair T S) (Refine ([x : T]) P) (∃ ([x : T] ...) T)]
   [Res ::= (Result T P Q)]
@@ -25,16 +26,16 @@
   [Ψ  ::= {P ...}]
   [Δ  ::= (Env Γ Ψ)]
   [± ::= pos neg]
-  [X ::= THEORY-SPECIFIC-FORMULA] ;; place holder
-  [TH ::= BASE-THEORY] ;; place holder
-  [SOME-ENV ::= Γ Ψ Δ]
-  [RTR-ANY ::= x n b p v e fld π o T Res A P Γ Ψ Δ ± X TH]
+  ;; X and TH are place holders where specific theory details would go
+  [X ::= THEORY-SPECIFIC-FORMULA]
+  [TH ::= BASE-THEORY]
+  [ρ ::= ([x v] ...)]
   #:binding-forms
   (λ ([x : T] ...) e #:refers-to (shadow x ...))
   (let ([x e_x]) e #:refers-to x)
   (Fun ([x : T] ...) -> Res #:refers-to (shadow x ...))
   (Refine ([x : T]) P #:refers-to x)
-  (∃ ([x : T] ...) any #:refers-to (shadow x ...)))
+  (∃ ([x : T] ...) any #:refers-to (shadow x ...))) 
 
 
 ;; ---------------------------------------------------------
@@ -43,8 +44,8 @@
 (define X? (redex-match? RTR-Base X))
 (define p? (redex-match? RTR-Base p))
 (define e? (redex-match? RTR-Base e))
-(define field? (redex-match? RTR-Base fld))
-(define path? (redex-match? RTR-Base π))
+(define field? (redex-match? RTR-Base field))
+(define path? (redex-match? RTR-Base path))
 (define o? (redex-match? RTR-Base o))
 (define T? (redex-match? RTR-Base T))
 (define U? (redex-match? RTR-Base (U T ...)))

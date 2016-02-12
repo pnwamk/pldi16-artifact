@@ -15,31 +15,30 @@
 ;; reports if a field has a particular associated type
 ;; (e.g. vector-length -> Integer)
 (define-metafunction RTR-Base
-  fld-ty : fld -> T
-  [(fld-ty fld) Any])
+  field-type : field -> T
+  [(field-type field) Any])
 
 ;; ---------------------------------------------------------
 ;; object derived concepts
 ;; obj-id
 (define-metafunction RTR-Base
-  path-id : π -> x
-  [(path-id x) x]
-  [(path-id (fld o)) (path-id o)])
-
+  obj-id : o -> x
+  [(obj-id x) x]
+  [(obj-id (field o)) (obj-id o)])
 ;; obj-path
 (define-metafunction RTR-Base
-  path-flds : π -> (fld ...)
-  [(path-flds x) ()]
-  [(path-flds (fld o))
-   (fld_rst ... fld)
-   (where (fld_rst ...) (path-flds o))])
+  obj-path : o -> path
+  [(obj-path x) ()]
+  [(obj-path (field o))
+   (field_rst ... field)
+   (where (field_rst ...) (obj-path o))])
 
 (module+ test
   (redex-chk
-   #:= (path-id y) y
-   #:= (path-id (first (second x))) x
-   #:= (path-flds x) ()
-   #:= (path-flds (first (second x))) (second first)))
+   #:= (obj-id y) y
+   #:= (obj-id (first (second x))) x
+   #:= (obj-path x) ()
+   #:= (obj-path (first (second x))) (second first)))
 
 ;; ---------------------------------------------------------
 ;; simple-subtype
@@ -150,29 +149,31 @@
 ;; --------------------------------------------------------------
 ;; type-path-ref
 (define-metafunction RTR-Base
-  type-at : T (fld ...) -> T
-  [(type-at T ()) T]
-  [(type-at (Pair T S) (first fld ...))
-   (type-at T (fld ...))]
-  [(type-at (Pair T S) (second fld ...))
-   (type-at S (fld ...))]
-  [(type-at T path) Any])
+  type-path-ref : T path -> T
+  [(type-path-ref T ()) T]
+  [(type-path-ref (Pair T S) (first field ...))
+   (type-path-ref T (field ...))]
+  [(type-path-ref (Pair T S) (second field ...))
+   (type-path-ref S (field ...))]
+  [(type-path-ref T path) Any])
 
 ;; --------------------------------------------------------------
 ;; lookup
 ;; type of x in Γ
 ;; (takes an optional default argument for failure)
 (define-metafunction RTR-Base
-  lookup : SOME-ENV o -> T or #f
-  [(lookup Γ x) ,(cond
-                   [(assq (term x) (term Γ)) => third]
-                   [else #f])]
-  [(lookup Γ (cons o_l o_r))
-   (Pair: T_l T_r)
-   (where T_l (lookup Γ o_l))
-   (where T_r (lookup Γ o_l))]
-  [(lookup Γ π) (type-at (lookup Γ (path-id π)) (path-flds π))]
-  [(lookup (Env Γ any) o) (lookup Γ o)])
+  [(lookup Γ x)
+   ,(for/first ([y:t (in-list (term Γ))]
+                #:when (eq? (term x) (first y:t)))
+      (third y:t))]
+  [(lookup Γ o)
+   (type-path-ref (lookup Γ (obj-id o)) (obj-path o))]
+  [(lookup (Env Γ any) o) (lookup Γ o)]
+  [(lookup ρ x)
+   [(lookup Γ x)
+   ,(for/first ([y-v (in-list (term ρ))]
+                #:when (eq? (term x) (first y-v)))
+      (second y-v))]])
 
 (define-metafunction RTR-Base
   lookup/rem : Γ x -> (Γ T)
@@ -242,7 +243,8 @@
    {[y : T_y] [x : T] ... [z : S] ...}]
   [(ext {[x : T] ...} [y : T_y] any ...)
    (ext {[y : T_y] [x : T] ...} any ...)]
-  [(ext Ψ P ...) ,(append (term (P ...)) (term Ψ))])
+  [(ext Ψ P ...)
+   ,(append (term (P ...)) (term Ψ))])
 
 (module+ test
   (redex-chk
@@ -261,7 +263,8 @@
 ;; alpha equivalence
 (define-metafunction RTR-Base
   α= : any any -> boolean
-  [(α= any_1 any_2) ,(alpha-equivalent? RTR-Base (term any_1) (term any_2))])
+  [(α= any_1 any_2)
+   ,(alpha-equivalent? RTR-Base (term any_1) (term any_2))])
 
 (module+ test
   (redex-chk
@@ -270,6 +273,16 @@
            (λ ([y : Int]) y))
    #:f (α= (λ ([x : Int]) x)
            (λ ([y : Int]) x))))
+
+;; ---------------------------------------------------------
+;; subst
+;; standard capture-avoiding substitution
+(define-metafunction RTR-Base
+  subst : any ([any / x] ...) -> any
+  [(subst any ()) any]
+  [(subst any ([any_x / x] [any_y / y] ...))
+   (subst (substitute any x any_x)
+          ([any_y / y] ...))])
 
 (module+ test
   (redex-chk
@@ -283,86 +296,32 @@
 ;; ---------------------------------------------------------
 ;; Smart Refine constructor
 (define-metafunction RTR-Base
-  Refine: : ([x : T]) P -> T
-  [(Refine: ([x : (U)]) P) (U)]
-  [(Refine: ([x : T]) FF) (U)]
-  [(Refine: ([x : (Refine [y : S] Q)]) P)
-   (Refine: ([z : S]) (And: (subst P ([z / x])) (subst Q ([z / y]))))
-   (where z ,(variable-not-in (term (y S Q P)) 'fresh))]
-  [(Refine: ([x : (Fun ([y : T] ...) -> Res)]) P) (Fun ([y : T] ...) -> Res)]
-  [(Refine: ([x : T]) P) (Refine ([x : T]) P)])
+  Refine* : ([x : T]) P -> T
+  [(Refine* ([x : (U)]) P) (U)]
+  [(Refine* ([x : (Refine [y : S] Q)]) P)
+   (Refine* ([z : S]) (And: (subst P ([z / x])) (subst Q ([z / y]))))
+   (where z ,(variable-not-in (term ((Refine ([y : S]) Q) P)) 'fresh))]
+  [(Refine* ([x : (Fun ([y : T] ...) -> Res)]) P) (Fun ([y : T] ...) -> Res)]
+  [(Refine* ([x : T]) P) (Refine ([x : T]) P)])
 
 ;; ---------------------------------------------------------
 ;; Smart Pair constructor
 (define-metafunction RTR-Base
-  Pair: : T T -> T
-  [(Pair: (U) S) (U)]
-  [(Pair: T (U)) (U)]
-  [(Pair: (Refine [x : T] P)
+  Pair* : T T -> T
+  [(Pair* (U) S) (U)]
+  [(Pair* T (U)) (U)]
+  [(Pair* (Refine [x : T] P)
           (Refine [y : S] Q))
-   (Refine: [p : (Pair: T S)]
-            (∃ ([x_* : T] [y_* : S])
-               (And: (↦ p (cons x_* y_*))
-                     (subst P ([x_* / x]))
-                     (subst Q ([y_* / y])))))
-   (where (x_* y_* p) (fresh-vars (T S P Q x y) (x y p)))]
-  [(Pair: (Refine [x : T] P)
-          S)
-   (Refine: [p : (Pair: T S)]
-            (∃ ([x : T] [y : S])
-               (And: (↦ p (cons x y))
-                     P)))
-   (where (y p) (fresh-vars (T S P x) (y p)))]
-  [(Pair: T
-          (Refine [y : S] Q))
-   (Refine: [p : (Pair: T S)]
-            (∃ ([x : T] [y : S])
-               (And: (↦ p (cons x y))
-                     Q)))
-   (where (x p) (fresh-vars (T S Q y) (x p)))]
-  [(Pair: T S) (Pair T S)])
-
-
-;; normalize-objects
-;; make sure objects / paths are well formed
-;; after substitution
-(define-metafunction RTR-Base
-  normalize-objects : any -> any
-  [(normalize-objects (first any))
-   o_l
-   (where (cons o_l o_r) (normalize-objects any))]
-  [(normalize-objects (second any))
-   o_r
-   (where (cons o_l o_r) (normalize-objects any))]
-  [(normalize-objects (any ...))
-   ((normalize-objects any) ...)]
-  [(normalize-objects any) any])
-
-;; normalize-objects tests
-(module+ test
-  (redex-chk
-   [#:= (normalize-objects x) x]
-   [#:= (normalize-objects (first x)) (first x)]
-   [#:= (normalize-objects (first (cons x y))) x]
-   [#:= (normalize-objects (first (cons (cons a b) y))) (cons a b)]
-   [#:= (normalize-objects (second (cons x (cons a b)))) (cons a b)]
-   [#:= (normalize-objects (@ (second (cons x (cons a b))) (Pair Int Int)))
-        (@ (cons a b) (Pair Int Int))]
-   [#:= (α= (normalize-objects (@ (second (cons x (cons a b)))
-                                  (Refine ([p : (Pair Any Int)]) (@ (first p) Int))))
-            (@ (cons a b) (Refine ([p : (Pair Any Int)]) (@ (first p) Int))))
-        #t]))
-
-;; ---------------------------------------------------------
-;; subst
-;; standard capture-avoiding substitution
-(define-metafunction RTR-Base
-  subst : RTR-ANY ([RTR-ANY / x] ...) -> RTR-ANY
-  [(subst RTR-ANY ()) RTR-ANY]
-  [(subst RTR-ANY ([RTR-ANY_x / x] [RTR-ANY_y / y] ...))
-   (subst (normalize-objects (substitute RTR-ANY x RTR-ANY_x))
-          ([RTR-ANY_y / y] ...))])
-
+   (Refine* [p : (Pair* T S)] (And: (subst P ([(first p) / x]))
+                                    (subst Q ([(second p) / y]))))
+   (where p (fresh-var ((Refine [x : T] P) (Refine [y : S] Q)) p))]
+  [(Pair* (Refine [x : T] P) S)
+   (Refine* [p : (Pair* T S)] (subst P ([(first p) / x])))
+   (where p (fresh-var ((Refine [x : T] P) S) p))]
+  [(Pair* T (Refine [x : S] P))
+   (Refine* [p : (Pair* T S)] (subst P ([(second p) / x])))
+   (where p (fresh-var (T (Refine [x : S] P)) p))]
+  [(Pair* T S) (Pair T S)])
 
 ;; ---------------------------------------------------------
 ;; free variables
@@ -406,7 +365,6 @@
   equal-sets : any any -> boolean
   [(equal-sets any_1 any_2) ,(set=? (term any_1) (term any_2))])
 
-;; fv tests
 (module+ test
   (redex-relation-chk
    equal-sets
@@ -434,12 +392,12 @@
 (define-metafunction RTR-Base
   [(∃: () any) any]
   [(∃: ([z : (Refine ([y : S]) (↦ y x))]) T)
-   (Refine: ([q : (subst T ([x / z]))]) (@ x S))
+   (Refine* ([q : (subst T ([x / z]))]) (@ x S))
    (where q ,(variable-not-in (term T) 'q))]
   [(∃: ([z : (Refine ([y : S]) (↦ y x))]) P)
    (And: (@ x S) (subst P ([z x])))]
   [(∃: ([z : (Refine ([y : S]) (↦ y x))]) (Result T P Q))
-   (Result (Refine: ([q : (subst T ([x / z]))]) (@ x S))
+   (Result (Refine* ([q : (subst T ([x / z]))]) (@ x S))
            (And: (@ x S) (subst P ([x / z])))
            (And: (@ x S) (subst Q ([x / z]))))
    (where q ,(variable-not-in (term T) 'q))]
@@ -457,7 +415,7 @@
   [(first-of (Pair T S)) T]
   [(first-of (Refine ([p : (Pair T S)]) Q)) T]
   [(first-of (∃ ([x : T] ...) S))
-   (∃: ([x : T] ...) (first-of S))]
+   (∃ ([x : T] ...) (first-of S))]
   [(first-of T) Any])
 
 ;; ---------------------------------------------------------
@@ -465,7 +423,7 @@
 (define-metafunction RTR-Base
   second-of : T -> T
   [(second-of (Pair T S)) T]
-  [(second-of (Refine ([p : (Pair T S)]) Q)) S]
+  [(second-of (Refine ([p : (Pair T S)]) Q)) T]
   [(second-of (∃ ([x : T] ...) S))
    (∃ ([x : T] ...) (second-of S))]
   [(second-of T) Any])

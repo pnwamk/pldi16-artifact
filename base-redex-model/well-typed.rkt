@@ -95,14 +95,14 @@
    (wt (ext Δ [x : T_x] P_x) e (Result T P_+ P_-))
    -------------------------------------------------- "T-Let"
    (wt Δ (let ([x e_x]) e) (∃: ([x : T_x])
-                               (Refine: ([,(gensym) : T]) P_x)
+                               (Refine* ([,(gensym) : T]) P_x)
                                P_+
                                P_-))]
 
   ;; T-Pair
   [(wt-T Δ e_1 T_1) (wt-T Δ e_2 T_2)
    ------------------ "T-Pair"
-   (wt Δ (pair e_1 e_2) (Result (Pair: T_1 T_2) TT FF))]
+   (wt Δ (pair e_1 e_2) (Result (Pair* T_1 T_2) TT FF))]
 
   
   ;; T-First
@@ -110,7 +110,7 @@
    (where/hidden y ,(variable-not-in (term (Δ x)) 'fresh))
    (wt-T Δ e_p T_p) (subtype Δ T_p (Pair Any Any))
    (where T (first-of T_p)) (where P (@ (first x) False))
-   (where Res (Result (Refine: ([y : T]) (↦ y (first x))) P (¬ P)))
+   (where Res (Result (Refine* ([y : T]) (↦ y (first x))) P (¬ P)))
    ---------------- "T-First"
    (wt Δ (fst e_p) (∃: ([x : T_p]) Res))]
 
@@ -119,7 +119,7 @@
    (where/hidden y ,(variable-not-in (term (Δ x)) 'fresh))
    (wt-T Δ e_p T_p) (subtype Δ T_p (Pair Any Any))
    (where T (second-of T_p)) (where P (@ (second x) False))
-   (where Res (Result (Refine: ([y : T]) (↦ y (second x))) P (¬ P)))
+   (where Res (Result (Refine* ([y : T]) (↦ y (second x))) P (¬ P)))
    ---------------- "T-Second"
    (wt Δ (snd e_p) (∃: ([x : T_p]) Res))]
 

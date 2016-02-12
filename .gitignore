@@ -5,3 +5,7 @@
 *.css
 *.js
 *.html
+
+*.dep
+
+*.zo
