@@ -101,6 +101,12 @@
      #t]
     [else #f]))
 
+;; permute
+;; this function helps us sort the proposition and type
+;; environments since they are 'sets' but implemented
+;; with lists and we'd like to not explore
+;; every possible list permutation during our
+;; proof search
 (define (permute env)
   (match-define (list 'Env t-env p-env) env)
   (match* (t-env p-env)
@@ -186,7 +192,8 @@
   perm : Δ -> Δ or #f
   [(perm Δ) ,(permute (term Δ))])
 
-
+;; generates an environment w/ some randomness added
+;; for testing purposes
 (define-metafunction RTR-Base
   renv : ([x : T] ...) (P ...) -> Δ
   [(renv ([x : T] ...) (P ...))

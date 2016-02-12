@@ -281,7 +281,7 @@
   subst : any ([any / x] ...) -> any
   [(subst any ()) any]
   [(subst any ([any_x / x] [any_y / y] ...))
-   (subst (substitute RTR-Base (term any) (term x) (term any_x))
+   (subst (substitute any x any_x)
           ([any_y / y] ...))])
 
 (module+ test
@@ -346,7 +346,7 @@
   ;; Refine
   [(fv (Refine ([x : T]) P))
    ,(set-union (term (fv T))
-               (filter-not (curry equal? (term x)) (term (fv P))))]
+               (set-remove (term (fv P)) (term x)))]
   ;; Exists
   [(fv (∃ ([x : T] ...) any))
    ,(set-subtract (apply set-union (term (x_any ...)) (term ((x_T ...) ...)))

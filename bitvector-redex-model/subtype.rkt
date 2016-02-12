@@ -55,14 +55,14 @@
    ------------------- "S-Pair"
    (subtype Δ (Pair T_1 S_1) (Pair T_2 S_2))]
 
-  [(subtype Δ S T)
-   (proves (ext Δ P_+) Q_+) (proves (ext Δ P_-) Q_-)
-   ------------------- "S-Result"
-   (subtype Δ (Result S P_+ P_-) (Result T Q_+ Q_-))]
-
   [(subtype (ext Δ [x : T_x] ...) T S)
    ------------------- "S-ExistsSub"
-   (subtype Δ (∃ ([x : T_x] ...) T) S)])
+   (subtype Δ (∃ ([x : T_x] ...) T) S)]
+
+  [(subtype Δ S T)
+   (proves (ext Δ P_+) Q_+) (proves (ext Δ P_-) Q_-)
+   ------------------- "SR-Result"
+   (subtype Δ (Result S P_+ P_-) (Result T Q_+ Q_-))])
 
 
 ;; *********************************************************
@@ -113,6 +113,11 @@
        (∃ ([x : Any]) Any)
        Int]))
 
+;; proves / PROVES
+;; we use two logical proves relations in this model
+;; to restrict the order we try applying
+;; elimination/introduction rules (otherwise Redex would
+;; try all possibilities! yikes!)
 (define-judgment-form RTR-Base
   #:mode (proves I I)
   #:contract (proves Δ_ P_)
@@ -291,10 +296,6 @@
     (Refine ((y : Int)) (↦ y x))
     Int]))
 
-#|
-restrict: codomain test failed for Int,
-call was (restrict (Env ((x : Any)) ()) Any Int)
-|#
 ;; ---------------------------------------------------------
 ;; restrict
 (define-metafunction RTR-Base
@@ -480,11 +481,7 @@ call was (restrict (Env ((x : Any)) ()) Any Int)
    [(Env {[x : (U Int Bool)]}
          {(∃ ([z : Int]) (Or (@ x Int)
                                   (¬ (@ z Int))))})
-    (@ x Int)]
-   ;; L-Theory
-   #;[#:f (Env {} {}) THEORY-SPECIFIC-FORMULA]
-   #;[(Env {} {THEORY-SPECIFIC-FORMULA})
-    THEORY-SPECIFIC-FORMULA]))
+    (@ x Int)]))
 
 ;; --------------------------------------------------------------
 ;; proves tests (basic) + some randomization

@@ -3,9 +3,10 @@
 (require redex)
 (provide (all-defined-out)) 
 
-
 ;; ---------------------------------------------------------
 ;; Definition for Base Refinement-Typed Racket
+;; formalism described in "Occurrence Typing Modulo Theories"
+;; + bitvector theory
 (define-language RTR-Base
   [x y z ::= variable-not-otherwise-mentioned]
   [n ::= integer]
@@ -15,7 +16,7 @@
   ;; bitvector specific values--inductive constructors grammar:
   [bvbop ::= bvand bvor bvadd bvsub bvxor bvmul bv= bv<=]
   [p ::= int? bool? pair? not + - * <= fst snd pair bvbop bvnot]
-  [v ::= n p bv true false (cons v v) (closure ρ ([x : T] ...) e)]
+  [v ::= n p bv true false]
   [e ::= v x (e e ...) (if e e e) (λ ([x : T] ...) e) (let ([x e]) e)]
   [field ::= first second]
   [path :: (field ...)]
@@ -42,8 +43,7 @@
   (let ([x e_x]) e #:refers-to x)
   (Fun ([x : T] ...) -> Res #:refers-to (shadow x ...))
   (Refine ([x : T]) P #:refers-to x)
-  (∃ ([x : T] ...) any #:refers-to (shadow x ...))
-  (closure ρ ([x : T] ...) e #:refers-to (shadow x ...))) 
+  (∃ ([x : T] ...) any #:refers-to (shadow x ...))) 
 
 
 ;; ---------------------------------------------------------

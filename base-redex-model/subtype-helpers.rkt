@@ -192,7 +192,8 @@
   perm : Δ -> Δ or #f
   [(perm Δ) ,(permute (term Δ))])
 
-
+;; generates an environment w/ some randomness added
+;; for testing purposes
 (define-metafunction RTR-Base
   renv : ([x : T] ...) (P ...) -> Δ
   [(renv ([x : T] ...) (P ...))
@@ -201,7 +202,7 @@
          [x_1 : Any]
          [x : T] ...}
         ,(shuffle (list* (term TT)
-                         (term (Or THEORY-SPECIFIC-FORMULA (@ x_1 Any)))
+                         (term (Or FF (@ x_1 Any)))
                          (term (And (@ x_1 Int)
                                     (@ (first x_2) Any)))
                          (term (¬ (@ (second x_3) Int)))

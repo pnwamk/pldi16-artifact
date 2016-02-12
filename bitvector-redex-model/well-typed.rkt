@@ -301,6 +301,10 @@
    [#:f (Env {[p : Any]} {})
         (fst p)
         Any]
+   [(Env {[x : Int]} {})
+    (let ([p (pair x 42)])
+      (if (int? x) (fst p) -1))
+    Int]
    
    ;; T-Second
    [(Env {[p : (Pair Int Bool)]} {})

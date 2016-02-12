@@ -462,11 +462,7 @@
    [(Env {[x : (U Int Bool)]}
          {(∃ ([z : Int]) (Or (@ x Int)
                                   (¬ (@ z Int))))})
-    (@ x Int)]
-   ;; L-Theory
-   [#:f (Env {} {}) THEORY-SPECIFIC-FORMULA]
-   [(Env {} {THEORY-SPECIFIC-FORMULA})
-    THEORY-SPECIFIC-FORMULA]))
+    (@ x Int)]))
 
 ;; --------------------------------------------------------------
 ;; proves tests (basic) + some randomization
@@ -562,11 +558,7 @@
    [(renv {[x : (U Int Bool)]}
           {(∃ ([z : Int]) (Or (@ x Int)
                                    (¬ (@ z Int))))})
-    (@ x Int)]
-   ;; L-Theory
-   [#:f (renv {} {}) THEORY-SPECIFIC-FORMULA]
-   [(renv {} {THEORY-SPECIFIC-FORMULA})
-    THEORY-SPECIFIC-FORMULA]))
+    (@ x Int)]))
 
 (module+ test
   (display "subtype.rkt tests complete!"))
