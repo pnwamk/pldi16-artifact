@@ -27,30 +27,30 @@ export PATH=$PATH:`pwd`/racket-6.2.1/bin/
 racket -v # print version
 
 # create directory for cloned pkg installs
-# mkdir racket-6.2.1/extra-pkgs
-# cd racket-6.2.1/extra-pkgs
+mkdir racket-6.2.1/extra-pkgs
+cd racket-6.2.1/extra-pkgs
 
 # Install our modified version of Typed Racket
-raco pkg install --multi-clone convert --auto --clone typed-racket git://github.com/andmkent/typed-racket?path=typed-racket-lib#rtr-prototype
+raco pkg install -i --multi-clone convert --auto --clone typed-racket git://github.com/andmkent/typed-racket?path=typed-racket-lib#rtr-prototype
 
 # Install our adapted version of the `math` library
-raco pkg install --auto --clone math git://github.com/dkempe/math?path=math-lib
-raco pkg install --auto --clone math git://github.com/dkempe/math?path=math-test
+raco pkg install -i --auto --clone math git://github.com/dkempe/math?path=math-lib
+raco pkg install -i --auto --clone math git://github.com/dkempe/math?path=math-test
 
 # Install our adapted version of the `plot` library
-raco pkg install --auto --clone plot \
+raco pkg install -i --auto --clone plot \
 "git://github.com/andmkent/plot?path=plot-lib#rtr-prototype" \
 "git://github.com/andmkent/plot?path=plot-compat#rtr-prototype" \
 "git://github.com/andmkent/plot?path=plot-gui-lib#rtr-prototype" \
 "git://github.com/andmkent/plot?path=plot-test#rtr-prototype"
 
 # Install our adapted version of the `pict3d` library
-raco pkg install --auto --clone pict3d \
+raco pkg install -i --auto --clone pict3d \
 "git://github.com/andmkent/pict3d?path=pict3d#rtr-prototype" \
 "git://github.com/andmkent/pict3d?path=typed#rtr-prototype"
 
 # Install DrRacket for trying examples
-raco pkg install --auto drracket
+raco pkg install -i --auto drracket
 
 # move out of racket-6.2.1/extra-pkgs
 # cd ../..
