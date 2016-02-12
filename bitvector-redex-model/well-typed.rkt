@@ -5,7 +5,7 @@
          "base-helpers.rkt"
          "subtype.rkt"
          "select-type.rkt"
-         redex-chk)
+         "redex-chk.rkt")
 
 (provide val-type
          wt
@@ -48,8 +48,6 @@
    (Result (Fun ([x : BV] [y : BV]) -> (Result Bool (bv= x y) (¬ (bv= x y)))) TT FF)]
   ;; we use specific typing judgments for the others
   [(val-type v) #f])
-
-;; bvand bvor bvmul bvmod bv<= bv= bvnot
 
 ;; ----------------------------------------------------------
 ;; Well-Typed judgement (simplified -- type only, ignores propositions)
@@ -327,6 +325,10 @@
         (snd p)
         Any]
 
+
+   ;; **********************************************************
+   ;; A few bitvector examples
+   
    ;; Body of x-mult---helper function used in multiplication
    ;; Multiply two numbers in the GF(2^8) finite field defined 
    ;; by the polynomial x^8 + x^4 + x^3 + x + 1 = 0
@@ -336,12 +338,15 @@
           y
           (bvxor y (bv63 #x1b))))
     Byte]
+   
    [#:f (Env {[x : Byte]} {})
         (let ([y (bvand (bvmul (bv63 2) x) (bv63 #xff))])
           (if (bv= (bv63 0) (bvand x (bv63 #x80)))
               y
               (bvxor y (bv63 #x1b))))
     Nibble]
+
+   ;; actual x-mult function
    [mt-Δ
     (λ ([x : Byte])
       (let ([y (bvand (bvmul (bv63 2) x) (bv63 #xff))])

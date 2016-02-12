@@ -1,7 +1,7 @@
 #lang racket
 
 (require redex
-         redex-chk
+         "redex-chk.rkt"
          "base-lang.rkt")
 
 (provide (all-defined-out))
@@ -281,7 +281,7 @@
   subst : any ([any / x] ...) -> any
   [(subst any ()) any]
   [(subst any ([any_x / x] [any_y / y] ...))
-   (subst ,(substitute RTR-Base (term any) (term x) (term any_x))
+   (subst (substitute RTR-Base (term any) (term x) (term any_x))
           ([any_y / y] ...))])
 
 (module+ test

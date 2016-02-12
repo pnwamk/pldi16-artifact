@@ -5,7 +5,7 @@
          "base-helpers.rkt"
          "subtype.rkt"
          "subtype-helpers.rkt"
-         redex-chk)
+         "redex-chk.rkt")
 
 (provide select-type)
 
@@ -27,13 +27,6 @@
              (cond
                [(empty? ts) (term ((lookup Γ x)))]
                [else ts])))
-   #;(where any ,(printf "select-type ~a ~a \n  Γ*: ~a \n  Ψ*: ~a\n DNF: ~a\n\n ---> ~a\n\n"
-                       (term (Env Γ Ψ))
-                       (term x)
-                       (term Γ_*)
-                       (term (ext Ψ P ...))
-                       (term ([Ψ_+ Ψ_-] ...))
-                       (term (T ...))))
    (where y ,(variable-not-in (term x) (ysym)))
    (where T_* (U* T ...))]
   [(select-type (Env Γ Ψ) x) #f])

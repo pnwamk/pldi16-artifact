@@ -3,17 +3,16 @@
 (require redex)
 (provide (all-defined-out)) 
 
-#|
-
-|#
 
 ;; ---------------------------------------------------------
 ;; Definition for Base Refinement-Typed Racket
 (define-language RTR-Base
   [x y z ::= variable-not-otherwise-mentioned]
   [n ::= integer]
-  [bv ::= (bv63 n)]
   [b ::= true false]
+  ;; bitvector specific values--base elements (sans objects) grammar:
+  [bv ::= (bv63 n)]
+  ;; bitvector specific values--inductive constructors grammar:
   [bvbop ::= bvand bvor bvadd bvsub bvxor bvmul bv= bv<=]
   [p ::= int? bool? pair? not + - * <= fst snd pair bvbop bvnot]
   [v ::= n p bv true false (cons v v) (closure ρ ([x : T] ...) e)]
@@ -31,8 +30,11 @@
   [Ψ  ::= {P ...}]
   [Δ  ::= (Env Γ Ψ)]
   [± ::= pos neg]
+  ;; bitvector specific value set grammar:
   [BV-VAL ::= bv o (bvnot BV-VAL) (bvbop BV-VAL BV-VAL)]
+  ;; bitvector specific formula grammar:
   [X ::= (bv= BV-VAL BV-VAL) (bv<= BV-VAL BV-VAL)]
+  ;; our only external theory is a bitvector theory (w/ 63 bit bitvectors)
   [TH ::= BV63]
   [ρ ::= ([x v] ...)]
   #:binding-forms

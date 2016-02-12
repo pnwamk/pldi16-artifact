@@ -5,7 +5,7 @@
          "base-helpers.rkt"
          "subtype-helpers.rkt"
          "bv63-theory.rkt"
-         redex-chk)
+         "redex-chk.rkt")
 
 (provide subtype
          proves PROVES

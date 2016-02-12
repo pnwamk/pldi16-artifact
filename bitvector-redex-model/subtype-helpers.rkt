@@ -1,7 +1,7 @@
 #lang racket
 
 (require redex
-         redex-chk
+         "redex-chk.rkt"
          "base-lang.rkt"
          "base-helpers.rkt")
 
