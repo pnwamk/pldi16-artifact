@@ -5,7 +5,7 @@
 *.css
 *.js
 *.html
-
 *.dep
-
 *.zo
+*~
+.vagrant
