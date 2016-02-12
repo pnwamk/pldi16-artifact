@@ -30,9 +30,7 @@
 (define ((redex->z3 ids) prop)
   ;; generator of fresh z3-friendly ids (as a string)
   (define (fresh-id o)
-    (symbol->string
-     (variable-not-in (hash-values ids)
-                      (if (symbol? o) o (gensym 'o)))))
+    (symbol->string (gensym)))
   ;; return the logical statement as a string
   (let ->z3 ([prop prop])
     (match prop
@@ -86,5 +84,6 @@
   (match result
     ['sat #f]
     ['unsat #t]
-    [else (error 'BV63-proves? "result was ~a\n" else)]))
+    [else (error 'BV63-proves? "Z3 info\nassumtions: ~a\n goal: ~a\n result was ~a\n"
+                 assumptions goal else)]))
 
