@@ -15,24 +15,24 @@ Steps to setup the artifact
 
 3) install typed-racket fork:
 
-raco pkg install --multi-clone convert --auto --clone typed-racket "git://github.com/andmkent/typed-racket?path=typed-racket-lib#rtr-prototype"
+raco pkg install -i --multi-clone convert --auto --clone typed-racket "git://github.com/andmkent/typed-racket?path=typed-racket-lib#rtr-prototype"
 
 4) install other libraries
 
-raco pkg install --auto --clone math \
+raco pkg install -i --auto --clone math \
 "git://github.com/dkempe/math?path=math-lib" \
 "git://github.com/dkempe/math?path=math-test"
 
-raco pkg install --auto --clone plot \
+raco pkg install -i --auto --clone plot \
 "git://github.com/andmkent/plot?path=plot-lib#rtr-prototype" \
 "git://github.com/andmkent/plot?path=plot-compat#rtr-prototype" \
 "git://github.com/andmkent/plot?path=plot-gui-lib#rtr-prototype" \
 "git://github.com/andmkent/plot?path=plot-test#rtr-prototype" 
 
-raco pkg install --no-setup --deps force pfds
+raco pkg install -i --no-setup --deps force pfds
 
 raco pkg install --auto --clone pict3d \
 "git://github.com/andmkent/pict3d?path=pict3d#rtr-prototype" \
 "git://github.com/andmkent/pict3d?path=typed#rtr-prototype"
 
-raco pkg install --auto drracket
+raco pkg install -i --auto drracket
