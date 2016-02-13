@@ -46,8 +46,7 @@ raco pkg install -i --auto --clone plot \
 
 # Install our adapted version of the `pict3d` library
 raco pkg install -i --auto --clone pict3d \
-"git://github.com/andmkent/pict3d?path=pict3d#rtr-prototype" \
-"git://github.com/andmkent/pict3d?path=typed#rtr-prototype"
+"git://github.com/andmkent/pict3d#rtr-prototype"
 
 # Install DrRacket for trying examples
 raco pkg install -i --auto drracket
