@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/dave/Libs/racket6.4/bin/racket /home/dave/Libs/pldi16-artifact-misc/case-study/case-study.rkt
+Name[en_US]=run-case-study
+Icon=recommended-driver
+Terminal=true
+X-KeepTerminal=true

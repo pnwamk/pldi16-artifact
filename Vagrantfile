@@ -21,14 +21,14 @@ sudo apt-get install -y fontconfig libcairo2 libjpeg62 libpango1.0-0
 
 wget http://mirror.racket-lang.org/installers/6.2.1/racket-minimal-6.2.1-i386-linux-ubuntu-precise.sh
 sh racket-minimal-6.2.1-i386-linux-ubuntu-precise.sh --dest ./racket-6.2.1
-export PATH=$PATH:`pwd`/racket-6.2.1/bin/
+export PATH=$PATH:`pwd`/racket-rtr/bin/
 
 # Check that Racket works
 racket -v # print version
 
 # create directory for cloned pkg installs
-mkdir racket-6.2.1/extra-pkgs
-cd racket-6.2.1/extra-pkgs
+mkdir racket-rtr/extra-pkgs
+cd racket-rtr/extra-pkgs
 
 # Install our modified version of Typed Racket
 raco pkg install -i --multi-clone convert --auto --clone typed-racket git://github.com/andmkent/typed-racket?path=typed-racket-lib#rtr-prototype
@@ -52,7 +52,7 @@ raco pkg install -i --auto --clone pict3d \
 # Install DrRacket for trying examples
 raco pkg install -i --auto drracket
 
-# move out of racket-6.2.1/extra-pkgs
+# move out of racket-rtr/extra-pkgs
 cd ../..
 
 # Clone our artifact repository for examples and Redex model
@@ -62,6 +62,9 @@ git clone git://github.com/andmkent/pldi16-artifact-misc
 # NOTE: This will NOT run our RTR examples!
 wget http://mirror.racket-lang.org/installers/6.4/racket-6.4-i386-linux-ubuntu-precise.sh
 sh racket-6.4-i386-linux-ubuntu-precise.sh --dest ./racket-6.4
+
+# ppict is required for case study script
+./racket-6.4/bin/raco pkg install -i ppict
 
 SCRIPT
 

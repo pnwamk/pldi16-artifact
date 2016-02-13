@@ -10,9 +10,9 @@
          racket/cmdline)
 
 ;; which raco does the case study use on this machine
-(define raco "/home/dave/proto/racket-reg/racket/bin/raco")
+(define raco "/home/dave/Libs/racket-rtr/bin/raco")
 ;; folder where results should be stored (raw and summary)
-(define result-folder "/home/dave/Desktop/RTR-case-study-output")
+(define result-folder "/home/dave/Desktop/case-study-output")
 
 
 ;; which libraries does our case study include
@@ -144,7 +144,7 @@
       (exit))
     ;; build the library
     (define built?
-      (let ([cmd (format "~a setup -j 1 -D ~a 2> ~a"
+      (let ([cmd (format "~a setup -j 1 -D ~a 2> tee ~a"
                          raco lib (results-file lib))])
         (printf "executing: ~a\n" cmd)
         (system cmd)))
