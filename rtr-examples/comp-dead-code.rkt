@@ -1,5 +1,8 @@
 #lang typed/racket
 
+;; illustrates unreachable code being correctly identified as such
+;; via linear integer theory
+
 (: dead< (-> (Refine [i : Integer] (< i 10)) Integer))
 (define (dead< x)
   (if (< x 11)

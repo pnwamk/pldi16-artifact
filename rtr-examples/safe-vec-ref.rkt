@@ -1,31 +1,38 @@
 #lang typed/racket
 
-(: vec-ref :
-(∀ (α) ((Vecof α) Int -> α)))
-(define (vec-ref v i)
-(if (≤ 0 i (sub1 (len v)))
-       (unsafe-vec-ref v i)
-       (error "invalid vector index!")))
+(require racket/unsafe/ops)
 
+;; code from section 2.1 of paper
 
+(define-type (Vecof A) (Vectorof A))
+(define-type Int Integer)
 
 (: safe-vec-ref :
-(∀ (α) ([v : (Vecof α)]
-   [i : (Refine [i : Int] (ď 0 i)
-   (< i (len v)))] „> α)))
+   (∀ (α) (~> ([v : (Vecof α)]
+               [i : (Refine [i : Int] (<= 0 i) (< i (len v)))])
+              α)))
    (define (safe-vec-ref v i)
-           (unsafe-vec-ref v i))
+           (unsafe-vector-ref v i))
 
-#|
+
 ;; does not typecheck:
- (: safe-dot-prod :
-    (Vecof Int) (Vecof Int) -> Int)
-  (define (safe-dot-prod A B)
-   (for/sum ([i (in-range (len A))])
-      (* (safe-vec-ref A i)
-        (safe-vec-ref B i))))
+#|
+(: almost-but-not-quite-safe-dot-prod :
+   (Vecof Int) (Vecof Int) -> Int)
+(define (almost-but-not-quite-safe-dot-prod A B)
+  (for/sum ([i : (Refine [i : Natural] (< i (len A)))
+               (in-range (vector-length A))])
+    (* (safe-vec-ref A i)
+       (safe-vec-ref B i)))) ;; B may be shorter than A!
 |#
 
-(define (vec-sum v)
-(for/sum ([i (in-range (len v))])
-(safe-vec-ref v i)))
+;; does typecheck!
+(: safe-dot-prod :
+   (~> ([A : (Vecof Int)]
+        [B : (Refine [v : (Vecof Int)] (= (len v) (len A)))])
+       Int))
+(define (safe-dot-prod A B)
+  (for/sum ([i : (Refine [i : Natural] (< i (len A)))
+               (in-range (vector-length A))])
+    (* (safe-vec-ref A i)
+       (safe-vec-ref B i))))

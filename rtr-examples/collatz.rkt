@@ -9,3 +9,6 @@
     [(= int 1) 1]
     [(even? int) (collatz (quotient int 2))]
     [else (collatz (+ (* int 3) 1))]))
+
+(unless (= 1 (collatz 42))
+  (error "collatz is broken!"))
