@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Exec=meld /home/dave/Libs/pldi16-artifact-misc/base-redex-model /home/dave/Libs/pldi16-artifact-misc/bitvector-redex-model
+Icon=meld
+Name[en_US]=diff-redex-base-bitvector
+GenericName=View changes necessary for adding bitvectors to the model
