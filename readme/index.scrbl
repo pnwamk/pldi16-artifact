@@ -20,12 +20,13 @@ This artifact provides examples of the following:
            formal language found in the paper, along with a
            Redex model of the bitvector extension discussed
            in sections 2.2 and 3.4.}
-          @item{Scripts which typecheck and attempt to
-           verify all vector operations in the libraries our
-           case study examined: math, plot, and pict3d.}
-          @item{A modified version of the math library
-           which uses refinement types in order to use more
-           provably save vector operations.}]
+          @item{Scripts which build and check for provably
+           safe vector operations in the libraries our case
+           study examined: math, plot, and pict3d.}
+          @item{A modified version of the math library which
+           uses refinement types in order to use more
+           provably save vector operations throughout the
+           library.}]
 
 
 For detailed information see the sections below:
