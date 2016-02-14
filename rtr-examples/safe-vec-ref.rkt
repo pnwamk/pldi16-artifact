@@ -36,3 +36,15 @@
                (in-range (vector-length A))])
     (* (safe-vec-ref A i)
        (safe-vec-ref B i))))
+
+
+(: dot-prod : (Vecof Int) (Vecof Int) -> Int)
+(define (dot-prod A B)
+  (let ([lenA (vector-length A)]
+        [lenB (vector-length B)])
+    (if (= lenA lenB)
+        (safe-dot-prod A B)
+        (error 'dot-prod "invalid vectors: ~a ~a" A B))))
+
+(dot-prod (vector 1 2 3)
+          (vector 4 5 6))
