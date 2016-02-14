@@ -5,7 +5,7 @@
 @author{Andrew M. Kent, David Kempe, and Sam Tobin-Hochstadt}
 
 This is the README for the artifact accompanying the
-conditionally accepted paper "Occurrence Typing Modulo
+conditionally accepted @hyperlink["http://andmkent.com/proj/pldi2016/ocmt-preprint.pdf"]{paper} "Occurrence Typing Modulo
 Theories" (PLDI 2016).
 
 @bold{VirtualBox Virtual Machine Details}
