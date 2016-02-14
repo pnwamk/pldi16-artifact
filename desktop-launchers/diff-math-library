@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Exec=meld /home/dave/Libs/racket-rtr/extra-pkgs/math/math-lib/ /home/dave/Libs/racket-rtr-annotated-math/extra-pkgs/math/math-lib/
-GenericName=View changes to math library for case study
-Icon=meld

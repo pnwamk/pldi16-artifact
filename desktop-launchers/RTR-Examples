@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Path=/home/dave/Libs/pldi16-artifact-misc/rtr-examples
-Exec=/home/dave/Libs/racket-rtr/bin/drracket collatz.rkt for-loop.rkt safe-vec-ref.rkt comp-dead-code.rkt  lsb.rkt max.rkt
-Icon=/home/dave/Libs/racket6.4/share/drracket-exe-icon.png

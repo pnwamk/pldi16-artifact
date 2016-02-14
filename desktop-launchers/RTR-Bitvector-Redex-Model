@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Exec=/home/dave/Libs/racket6.4/bin/drracket base-lang.rkt  subtype.rkt well-typed.rkt 
-Comment[en_US]=DrRacket v6.4
-GenericName=RTR-Bitvector-Redex-Model
-Icon=/home/dave/Libs/racket6.4/share/drracket-exe-icon.png
-Name[en_US]=RTR-Bitvector-Redex-Model
-Path=/home/dave/Libs/pldi16-artifact-misc/bitvector-redex-model/
