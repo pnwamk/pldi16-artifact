@@ -12,7 +12,7 @@ sudo apt-get update
 sudo apt-get install -y git
 
 # Install z3, needed for our bitvector redex model
-sudo apt-get install z3
+sudo apt-get install -y z3
 
 # Install libraries used by DrRacket
 sudo apt-get install -y fontconfig libcairo2 libjpeg62 libpango1.0-0
@@ -20,7 +20,7 @@ sudo apt-get install -y fontconfig libcairo2 libjpeg62 libpango1.0-0
 # Install Racket 6.2.1
 
 wget http://mirror.racket-lang.org/installers/6.2.1/racket-minimal-6.2.1-i386-linux-ubuntu-precise.sh
-sh racket-minimal-6.2.1-i386-linux-ubuntu-precise.sh --dest ./racket-6.2.1
+sh racket-minimal-6.2.1-i386-linux-ubuntu-precise.sh --dest ./racket-rtr
 export PATH=$PATH:`pwd`/racket-rtr/bin/
 
 # Check that Racket works
@@ -31,7 +31,8 @@ mkdir racket-rtr/extra-pkgs
 cd racket-rtr/extra-pkgs
 
 # Install our modified version of Typed Racket
-raco pkg install -i --multi-clone convert --auto --clone typed-racket git://github.com/andmkent/typed-racket?path=typed-racket-lib#rtr-prototype
+raco pkg install -i --multi-clone convert --auto --clone typed-racket \
+"git://github.com/andmkent/typed-racket?path=typed-racket-lib#rtr-prototype"
 
 # Install our adapted version of the `math` library
 raco pkg install -i --auto --clone math git://github.com/dkempe/math?path=math-lib
@@ -43,6 +44,9 @@ raco pkg install -i --auto --clone plot \
 "git://github.com/andmkent/plot?path=plot-compat#rtr-prototype" \
 "git://github.com/andmkent/plot?path=plot-gui-lib#rtr-prototype" \
 "git://github.com/andmkent/plot?path=plot-test#rtr-prototype"
+
+# Install dependency of the `pict3d` library, but avoid its (unneeded) dependencies
+raco pkg install --no-setup --deps force pfds
 
 # Install our adapted version of the `pict3d` library
 raco pkg install -i --auto --clone pict3d \
@@ -68,6 +72,7 @@ sh racket-6.4-i386-linux-ubuntu-precise.sh --dest ./racket-6.4
 SCRIPT
 
 Vagrant.configure("2") do |config|
+  config.ssh.username = "dave"
   config.vm.box = "hashicorp/precise32"
   config.vm.provision "shell",  inline: $script, :privileged => false
 end
