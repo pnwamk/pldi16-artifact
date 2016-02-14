@@ -10,15 +10,13 @@ Theories" (PLDI 2016).
 
 @bold{VirtualBox Virtual Machine Details}
 
-The artifact can be downloaded in a .zip at this URL:
+The artifact can be downloaded as an OVA archive at this URL:
 
-TODO
+@hyperlink["https://iu.box.com/ocmt-pldi2016-artifact"]{https://iu.box.com/ocmt-pldi2016-artifact}
 
-The archive contains a .vmdk and .ovf file.
-
-To run the artifact image, open the given .ovf file using
-the File->Import Appliance menu item in VirtualBox. This will create a new
-VM that can be launched after import.
+To run the artifact image, open the .ova file using
+the File->Import Appliance menu item in VirtualBox. This
+will create a new VM that can be launched after import.
 
 The username is @tt{dave} and the password is @tt{artifact}.
 
@@ -242,30 +240,47 @@ in a terminal would add the RTR installation (the one
 without the modifications to the math lib) to the current
 terminal's PATH.
 
-<<<<<<< 55289e7ba868f08f2211203c816065dc029b330d
 These scripts, this readme, and more can be found at the following Github repo:
 
 https://github.com/andmkent/pldi16-artifact-misc
 
+The Github repos for the three libraries we examined in our
+case study can be found here:
+
+@tt{https://github.com/dkempe/math} (the master branch is
+the one we annotated and modified, the vanilla branch is the
+version we originally examined)
+
+@tt{https://github.com/andmkent/plot/tree/rtr-prototype}
+
+@tt{https://github.com/andmkent/pict3d/tree/rtr-prototype}
+
+
 @section{Building your own VM}
 
-@margin-note{To reviewers: this should only be used as an additional means of
-checking your ability to compile our software. The artifact to be reviewed is
-the VM image that you have downloaded.}
+@margin-note{To reviewers: this should only be used as an
+ additional means of checking your ability to compile our
+ software. The artifact to be reviewed is the VM image that
+ you have downloaded.}
 
-To create your own VM, with many (but not all) of the same pieces installed,
-there is a @tt{Vagrantfile} in the
-@tt{http://github.com/andmkent/pldi16-artifact-misc/} repository (also found in
-@tt{/home/dave/pldi16-artifact-misc/Vagrantfile}) which will create a
-VM. Simply run @tt{vagrant up} in that directory with an appropriate
-installation of @link["http://vagrantup.com"]@tt{vagrant}.
+To create your own VM, with many (but not all) of the same
+pieces installed, there is a @tt{Vagrantfile} in the
+@tt{http://github.com/andmkent/pldi16-artifact-misc/}
+repository (also found in
+@tt{/home/dave/pldi16-artifact-misc/Vagrantfile}) which will
+create a VM. Simply run @tt{vagrant up} in that directory
+with an appropriate installation of 
+@link["http://vagrantup.com"]@tt{vagrant}.
 
-This will install the RTR version of Racket in @tt{/home/vagrant/racket-rtr},
-and the scripts and documents accompanying this artifact in
-@tt{/home/vagrant/pldi16-artifact-misc}. Additionally, it will install version
-6.4 of Racket, suitable for executing the Redex models described above, in
+This will install the RTR version of Racket in
+@tt{/home/vagrant/racket-rtr}, and the scripts and documents
+accompanying this artifact in
+@tt{/home/vagrant/pldi16-artifact-misc}. Additionally, it
+will install version 6.4 of Racket, suitable for executing
+the Redex models described above, in
 @tt{/home/vagrant/racket-6.4}.
 
-This will @emph{not} install the unmodified version of the @tt{math}
-library. It will also not create the launchers described above. However, the
-scripts can be directly run to generate and analyze the data.
+This will @emph{not} install the unmodified version of the 
+@tt{math} library. It will also not create the launchers
+described above. However, the scripts can be directly run to
+generate and analyze the data.
