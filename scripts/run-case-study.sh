@@ -2,4 +2,4 @@
 
 # run case study
 echo "running case study..."
-~/Libs/racket6.4/bin/racket ~/Libs/pldi16-artifact-misc/case-study/case-study.rkt
+/home/dave/racket-6.4/bin/racket /home/dave/pldi16-artifact-misc/case-study/case-study.rkt

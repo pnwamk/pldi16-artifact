@@ -31,7 +31,7 @@ raco pkg install -i --auto --clone plot \
 
 raco pkg install -i --no-setup --deps force pfds
 
-raco pkg install --auto --clone pict3d \
+raco pkg install -i --auto --clone pict3d \
 "git://github.com/andmkent/pict3d?path=pict3d#rtr-prototype" \
 "git://github.com/andmkent/pict3d?path=typed#rtr-prototype"
 

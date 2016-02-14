@@ -10,7 +10,7 @@
          racket/cmdline)
 
 ;; which raco does the case study use on this machine
-(define raco "/home/dave/Libs/racket-rtr/bin/raco")
+(define raco "/home/dave/racket-rtr/bin/raco")
 ;; folder where results should be stored (raw and summary)
 (define result-folder "/home/dave/Desktop/case-study-output")
 
