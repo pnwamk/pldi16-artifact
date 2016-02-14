@@ -4,13 +4,19 @@
 
 @title{Artifact: Occurrence Typing Modulo Theories}
 
+@author{Andrew M. Kent, David Kempe, and Sam Tobin-Hochstadt}
+
 This is a README for the artifact accompanying the
 conditionally accepted paper "Occurrence Typing Modulo
 Theories" (PLDI 2016).
 
-@author{Andrew M. Kent, David Kempe, and Sam Tobin-Hochstadt}
+The virtual machine for this artifact is available in a .zip here:
 
-This artifact provides examples of the following:
+Simply install this machine on your Virtual Box TODO MORE DETAILS.
+
+The username is `dave' and the password is `artifact'.
+
+This artifact contains the following:
 
 @itemlist[@item{An implementation of Refined Typed Racket
            (RTR) atop Typed Racket v6.2.1, including support
@@ -20,29 +26,16 @@ This artifact provides examples of the following:
            formal language found in the paper, along with a
            Redex model of the bitvector extension discussed
            in sections 2.2 and 3.4.}
-          @item{Scripts which build and check for provably
-           safe vector operations in the libraries our case
-           study examined: math, plot, and pict3d.}
-          @item{A modified version of the math library which
-           uses refinement types in order to use more
-           provably save vector operations throughout the
-           library.}]
-
-
-For detailed information see the sections below:
-
-@section{Setting up the virtual machine}
-
-The virtual machine is available in a .zip here:
-
-TODO
-
-It contains TODO.
+          @item{Details for replicating and examing the
+           results of our vector operations case study,
+           including a script which performs the initial
+           analysis as well as detailed information
+           regarding our work on the math library.}]
 
 @section{RTR Implementation}
 
 The implementation of RTR + the theory of linear arithmetic
-we built on top of Typed Racket is installed at the
+we built on top of Typed Racket v6.2.1 is installed at the
 following location:
 
 /home/dave/racket-rtr
@@ -116,17 +109,22 @@ additions required to add bitvector theory to
 
 @image["modeldiffexample.png" #:scale .5]
 
-@section{Case Study Scripts}
+@section{Case Study}
 
-Our case study involved having RTR typecheck the math,
-plot, and pict3d libraries while checking if vector
+Our case study first involved having RTR typecheck the
+math, plot, and pict3d libraries while checking if vector
 operations were verifiable without any additional
-annotations.
+annotations. We then performed a more detailed analysis on
+the math library, which involved modifications and
+annotations to use more safe vector operations.
+
+@subsection{Case Study Part 1: Generating the Initial Data}
 
 @image["runcasestudy.png" #:scale .5]
 
-This case study can be replicated with the desktop launcher
-"Run Case Study".
+The initial step for our case study can be replicated with
+the desktop launcher "Run Case Study". This runs our typechecker
+on the unannotated math, plot, and pict3d libraries.
 
 The raw data from this case study is printed to the terminal
 during execution and stored in the following folder:
@@ -142,7 +140,7 @@ following directory:
 
 /home/dave/racket-rtr/extra-pkgs
 
-@section{Modified Math library}
+@subsection{Case Study Part 2: Math Libary Modifications}
 
 The second half of our case study focused on adding
 annotations and making small changes to the math library in
@@ -182,4 +180,17 @@ provably safe with our system (this number is slightly
 smaller than that reported in the paper because of a few
 bugs and corrections made after our initial submission).
 
+@section{Miscellaneous}
 
+All of the desktop launchers point to scripts contained here:
+
+/home/dave/pldi16-artifact-misc/scripts
+
+That folder also contains scripts which can be used to add
+the racket/bin directory of the various installs to the
+current PATH.
+
+For example, entering `source
+/home/dave/pldi16-artifact-misc/add-racket-rtr-to-path.sh'
+would add the RTR installation to the current terminal's
+PATH.
