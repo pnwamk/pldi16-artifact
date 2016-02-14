@@ -17,6 +17,8 @@ sudo apt-get install -y z3
 # Install libraries used by DrRacket
 sudo apt-get install -y fontconfig libcairo2 libjpeg62 libpango1.0-0
 
+# Create the user `dave`
+
 # Install Racket 6.2.1
 
 wget http://mirror.racket-lang.org/installers/6.2.1/racket-minimal-6.2.1-i386-linux-ubuntu-precise.sh
@@ -25,6 +27,9 @@ export PATH=$PATH:`pwd`/racket-rtr/bin/
 
 # Check that Racket works
 racket -v # print version
+
+# Install useful Racket commands
+raco pkg install -i compiler-lib
 
 # create directory for cloned pkg installs
 mkdir racket-rtr/extra-pkgs
@@ -59,6 +64,7 @@ raco pkg install -i --auto drracket
 cd ../..
 
 # Clone our artifact repository for examples and Redex model
+# Scripts will be found here, as well as the README
 git clone git://github.com/andmkent/pldi16-artifact-misc
 
 # Install full Racket 6.4 for using our Redex model 
@@ -72,7 +78,6 @@ sh racket-6.4-i386-linux-ubuntu-precise.sh --dest ./racket-6.4
 SCRIPT
 
 Vagrant.configure("2") do |config|
-  config.ssh.username = "dave"
   config.vm.box = "hashicorp/precise32"
   config.vm.provision "shell",  inline: $script, :privileged => false
 end
