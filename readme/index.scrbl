@@ -194,13 +194,11 @@ the case study. As we made modifications and converted more
 vector operations to their safe counterparts, we recorded
 our updates and analysis in the following spreadsheet:
 
-@tt{/home/dave/Desktop/math-detailed-summary}
+@tt{/home/dave/Desktop/math-analysis.pdf}
 
-After making changes and examining the data in more detail
-we found almost 70% of all unique vector operations could be
-made provably safe with our system (this number is slightly
-smaller than that reported in the paper because of a few
-bugs and corrections made after our initial submission).
+We found 72.7% of all unique vector operations in the math
+library could be made provably safe with modest effort using
+our system.
 
 @section{Miscellaneous}
 
