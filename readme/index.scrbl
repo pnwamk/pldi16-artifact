@@ -241,3 +241,7 @@ For example, running @tt{source
 in a terminal would add the RTR installation (the one
 without the modifications to the math lib) to the current
 terminal's PATH.
+
+These scripts, this readme, and more can be found at the following Github repo:
+
+https://github.com/andmkent/pldi16-artifact-misc
