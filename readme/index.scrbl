@@ -150,8 +150,8 @@ The first step for our case study can be replicated with
 the @bold{Run Case Study} launcher. This runs our typechecker
 on the unannotated math, plot, and pict3d libraries.
 
-The raw data from this case study is printed to the terminal
-during execution and stored in the following folder:
+The raw data from this case study is written to files this
+desktop folder:
 
 @tt{/home/dave/Desktop/case-study-output}
 
