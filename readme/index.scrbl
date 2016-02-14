@@ -47,8 +47,10 @@ following location:
 
 /home/dave/racket-rtr
 
+@image["rtrexamples.png" #:scale .5]
+
 The desktop launcher "RTR Examples" will launch DrRacket
-backed with this Racket install, opening all of the examples
+backed with this Racket installation, opening all of the examples
 found in the paper.
 
 This implementation is what we used to add dependent
@@ -75,6 +77,8 @@ typechecking is to occur in a reasonable amount of time.
 
 @subsection{Base λ@subscript{RTR} Model}
 
+@image["basemodel.png" #:scale .5]
+
 The desktop launcher "RTR Base Redex Model" will launch
 DrRacket v6.4 and open the primary files for the λ
 @subscript{RTR} base redex model:
@@ -94,6 +98,8 @@ DrRacket v6.4 and open the primary files for the λ
 
 @subsection{λ@subscript{RTR}+Bitvector Theory Model}
 
+@image["bitvectormodel.png" #:scale .5]
+
 The desktop launcher "RTR Bitvector Redex Model" will launch
 DrRacket v6.4 and open the primary files for the λ 
 @subscript{RTR}+bitvector theory model. These files are
@@ -101,10 +107,14 @@ almost identical to those listed above, except that they
 contain the additional forms required for bitvector theory,
 as described in section 3.4 of the paper.
 
+@image["bitvectordiff.png" #:scale .5]
+
 The desktop launcher "View Bitvector Model Diff" will open
 the Meld diff viewing program and make it easy to see the
 additions required to add bitvector theory to
 λ@subscript{RTR}.
+
+@image["modeldiffexample.png" #:scale .5]
 
 @section{Case Study Scripts}
 
@@ -113,14 +123,19 @@ plot, and pict3d libraries while checking if vector
 operations were verifiable without any additional
 annotations.
 
+@image["runcasestudy.png" #:scale .5]
+
 This case study can be replicated with the desktop launcher
 "Run Case Study".
 
 The raw data from this case study is printed to the terminal
-during execution, and store in raw form and in a summary
-.png in the following folder:
+during execution and stored in the following folder:
 
 /home/dave/Desktop/case-study-output
+
+along with a summary png:
+
+@image["casestudyresults.png" #:scale .5]
 
 The above mentioned libraries can all be found in the
 following directory:
@@ -137,13 +152,20 @@ This annotated library is found here:
 
 /home/date/racket-rtr-annotated-math/extra-pkgs/math
 
+@image["mathdiff.png" #:scale .5]
+
 The desktop launcher "View Math Lib Diff" uses Meld
 to display the diff between the original math library
-and the version after we made our changes.
+and the version after we made our changes:
+
+@image["mathdiffexample.png" #:scale .5]
 
 The "Run Math Tests" launcher will test the math library,
 showing our changes did not break or change the library's
 external specification.
+
+@image["runmathtests.png" #:scale .5]
+
 
 While making these changes, we performed a detailed
 examination of all of the raw vector data generated in the
@@ -155,7 +177,7 @@ spreadsheet:
 /home/dave/Desktop/math-detailed-summary
 
 After making changes and examining the data in more detail
-we came to find 68% of all vector operations could be made
+we came to find 68% of all unique vector operations could be made
 provably safe with our system (this number is slightly
 smaller than that reported in the paper because of a few
 bugs and corrections made after our initial submission).
