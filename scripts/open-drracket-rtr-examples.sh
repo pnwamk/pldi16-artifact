@@ -1,5 +1,5 @@
 #!/bin/sh
 
-DIR=/home/dave/pldi16-artifact-misc/rtr-examples
+DIR=$HOME/pldi16-artifact-misc/rtr-examples
 
-/home/dave/racket-rtr/bin/drracket $DIR/*
+$HOME/racket-rtr/bin/drracket $DIR/*
