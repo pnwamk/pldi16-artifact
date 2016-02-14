@@ -8,11 +8,17 @@ This is the README for the artifact accompanying the
 conditionally accepted paper "Occurrence Typing Modulo
 Theories" (PLDI 2016).
 
-@bold{Virtual Machine Details}
+@bold{VirtualBox Virtual Machine Details}
 
-The virtual machine for this artifact is available in a .zip here:
+The artifact can be downloaded in a .zip at this URL:
 
-Simply install this machine on your Virtual Box TODO MORE DETAILS.
+TODO
+
+The archive contains a .vmdk and .ovf file.
+
+To run the artifact image, open the given .ovf file using
+the File->Import Appliance menu item in VirtualBox. This will create a new
+VM that can be launched after import.
 
 The username is @tt{dave} and the password is @tt{artifact}.
 
@@ -173,7 +179,7 @@ operations provably safe.
 
 The modified version of the math library is found in here:
 
-@tt{/home/date/racket-rtr-annotated-math/extra-pkgs/math}
+@tt{/home/dave/racket-rtr-annotated-math/extra-pkgs/math}
 
 @image["mathdiff.png" #:scale .5]
 
@@ -202,15 +208,36 @@ our system.
 
 @section{Miscellaneous}
 
-All of the desktop launchers point to scripts contained here:
+All of the desktop launchers in the VM simply point to
+scripts contained here:
 
 @tt{/home/dave/pldi16-artifact-misc/scripts}
 
-That folder also contains scripts which can be used to add
-the racket/bin directory of the various installs to the
-current PATH.
+the scripts they use are the following:
+
+DrRacket launching scripts:
+@itemlist[@item{@tt{open-drracket-base-redex.sh}}
+          @item{@tt{open-drracket-bitvector-redex.sh}}
+          @item{@tt{open-drracket-rtr-examples.sh}}]
+
+Meld launching scripts:
+@itemlist[@item{@tt{view-math-libary-diff.sh}}
+          @item{@tt{view-redex-bitvector-diff.sh}}]
+
+Terminal launching scripts:
+@itemlist[@item{@tt{run-case-study.sh}}
+          @item{@tt{run-math-tests.sh}}]
+
+
+These next scripts add the various Racket installs' racket/bin to
+the current terminals path if sourced:
+
+@itemlist[@item{@tt{add-racket-6.4-to-path.sh}}
+          @item{@tt{add-racket-rtr-annotated-math-to-path.sh}}
+          @item{@tt{add-racket-rtr-to-path.sh}}]
 
 For example, running @tt{source
  /home/dave/pldi16-artifact-misc/add-racket-rtr-to-path.sh}
-in a terminal would add the RTR installation to the current
+in a terminal would add the RTR installation (the one
+without the modifications to the math lib) to the current
 terminal's PATH.
