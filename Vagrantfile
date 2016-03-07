@@ -51,7 +51,7 @@ raco pkg install -i --auto --clone plot \
 "git://github.com/andmkent/plot?path=plot-test#rtr-prototype"
 
 # Install dependency of the `pict3d` library, but avoid its (unneeded) dependencies
-raco pkg install --no-setup --deps force pfds
+raco pkg install -i --no-setup --deps force pfds
 
 # Install our adapted version of the `pict3d` library
 raco pkg install -i --auto --clone pict3d \
