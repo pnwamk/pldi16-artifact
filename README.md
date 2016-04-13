@@ -1,4 +1,5 @@
-# Occurrence Typing Modulo Theories Artifact (PLDI '16)
+# Occurrence Typing Modulo Theories Artifact 
+## PLDI '16
 
 This is the github repo for the artifact accompanying the PLDI 2016 paper
 Occurrence Typing Modulo Theories, by Andrew M. Kent, David Kempe, and Sam 
