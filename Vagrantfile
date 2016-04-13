@@ -17,8 +17,6 @@ sudo apt-get install -y z3
 # Install libraries used by DrRacket
 sudo apt-get install -y fontconfig libcairo2 libjpeg62 libpango1.0-0
 
-# Create the user `dave`
-
 # Install Racket 6.2.1
 
 wget http://mirror.racket-lang.org/installers/6.2.1/racket-minimal-6.2.1-i386-linux-ubuntu-precise.sh
@@ -65,7 +63,7 @@ cd ../..
 
 # Clone our artifact repository for examples and Redex model
 # Scripts will be found here, as well as the README
-git clone git://github.com/andmkent/pldi16-artifact-misc
+git clone git://github.com/andmkent/pldi16-artifact
 
 # Install full Racket 6.4 for using our Redex model 
 # NOTE: This will NOT run our RTR examples!
